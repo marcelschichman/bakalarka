@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/DB.o \
+	${OBJECTDIR}/DalignWrapper.o \
 	${OBJECTDIR}/QV.o \
 	${OBJECTDIR}/SeedFinder.o \
 	${OBJECTDIR}/SeedFinder_hashmap.o \
@@ -72,6 +73,11 @@ ${OBJECTDIR}/DB.o: DB.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB.o DB.c
+
+${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
 
 ${OBJECTDIR}/QV.o: QV.c 
 	${MKDIR} -p ${OBJECTDIR}
