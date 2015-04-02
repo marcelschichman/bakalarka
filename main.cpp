@@ -3,43 +3,86 @@
 #include "SeedFinder_hashmap.h"
 #include "Timer.h"
 #include "DalignWrapper.h"
+#include <forward_list>
 using namespace std;
 
 int main(int argc, char** argv) {
-//    Alignment al;
-//    FASTA fasta ("genome.fasta");
-//    Sequence seq;
-//    fasta >> seq;
-//    
-//    SeedFinder_hashmap sf (20);
-//    sf.CreateIndexFromGenome(seq);
-//    
-//    Timer::startTiming();
-//    FASTQ fastq ("pacbio_10kb.fastq");
-//    int i = 0;
-//    while (fastq >> seq) {
-//        Timer::startTiming();
-//        vector<match> result;
-//        sf.GetSeedsWithRead(seq, result);
-//        cout << i++ << " " << seq.id << " seeds: " << result.size() << " time: " << Timer::getTimerResult() << " length: " << seq.data.length() << endl;
-//    }
-//    cout << "time sum: " << Timer::getTimerResult() << endl;
-    
-    Alignment al;
+    //    Alignment al;
+    //    FASTA fasta ("genome.fasta");
+    //    Sequence seq;
+    //    fasta >> seq;
+    //    
+    //    SeedFinder_hashmap sf (20);
+    //    sf.CreateIndexFromGenome(seq);
+    //    
+    //    Timer::startTiming();
+    //    FASTQ fastq ("pacbio_10kb.fastq");
+    //    int i = 0;
+    //    while (fastq >> seq) {
+    //        Timer::startTiming();
+    //        vector<match> result;
+    //        sf.GetSeedsWithRead(seq, result);
+    //        cout << i++ << " " << seq.id << " seeds: " << result.size() << " time: " << Timer::getTimerResult() << " length: " << seq.data.length() << endl;
+    //    }
+    //    cout << "time sum: " << Timer::getTimerResult() << endl;
+
+
+    // get sequences
+    Sequence a, b;
+    FASTA fasta("genome.fasta");
+    FASTQ fastq("pacbio_10kb.fastq");
+    fasta >> a;
+    //fastq >> b;
+
+    // prepare wrapper
     DalignWrapper dw;
-    dw.SetAligningParameters(0.7, 2, {0.25, 0.25, 0.25, 0.25});
-    
-    Sequence a ("AAACCCTTTGGGAAAC");
-    Sequence b ("CCCTGGG");
-    dw.ComputeAlignment(a, b, make_pair(8, 3), al);
-    cout << "length on a: " << al.GetLengthOnA() << endl;
-    cout << "length on b: " << al.GetLengthOnB() << endl;
-    cout << "aligned bases: " << endl;
-    vector<pair<int, int>> pairs;
-    al.ComputeTrace();
-    al.GetAlignedPairs(pairs);
-    for (auto p : pairs) {
-        cout << p.first << " " << p.second << endl;
+    dw.SetAligningParameters(0.7, 2,{0.25, 0.25, 0.25, 0.25});
+
+    // find seeds
+    SeedFinder_hashmap sf(30);
+    sf.CreateIndexFromGenome(a);
+        
+    int readCounter = 0;
+    //FOR(i, 15) fastq >> b;
+    while (fastq >> b) {
+        if (b.data.length() < 1000) {
+            continue;
+        }
+        cout << readCounter++ << " ";
+        
+        vector<match> result;
+        sf.GetSeedsWithRead(b, result);
+        //cout << "total matches: " << result.size() << endl;
+
+        forward_list<match> matches(result.begin(), result.end());
+        
+        int alignmentsCounter = 0;
+        while (!matches.empty()) {
+            int i = 0;
+            for (auto x : matches) i++;
+            Alignment al;
+            dw.ComputeAlignment(a, b, matches.front(), al);
+            //cout << "seeds: " << i << " " << al.GetLengthOnB() << " " << b.data.length() << " " << (matches.front().genomePos - matches.front().readPos) << endl;
+            matches.pop_front();
+            if (al.GetLengthOnB() == b.data.length()) {
+                alignmentsCounter++;
+                vector<pair<int, int>> pairs;
+                al.ComputeTrace();
+                //al.PrintAlignment("alignment.txt");
+                al.GetAlignedPairs(pairs);
+                int maxDiagonal = pairs[0].first - pairs[0].second;
+                int minDiagonal = maxDiagonal;
+                for (auto p : pairs) {
+                    minDiagonal = min(minDiagonal, p.first - p.second);
+                    maxDiagonal = max(maxDiagonal, p.first - p.second);
+                }
+                matches.remove_if([minDiagonal, maxDiagonal](match & m) {
+                    int diagonal = m.genomePos - m.readPos;
+                    return diagonal >= minDiagonal && diagonal <= maxDiagonal;
+                });
+            }
+        }
+        cout << "valid alignments: " << alignmentsCounter << endl;
     }
 }
 

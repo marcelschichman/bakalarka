@@ -24,7 +24,6 @@ private:
     dalign::Path path;
     dalign::Work_Data* workData;
     int traceSpacing;
-    Sequence dummy;
 
     enum Status {
         AS_EMPTY,

@@ -14,4 +14,8 @@ namespace Timer {
         tpts.pop_back();
         return result;
     }
+    
+    void verbalResult(const string& name) {
+        cout << name << " took " << getTimerResult() << "s" << endl;
+    }
 };
