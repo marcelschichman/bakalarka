@@ -5,3 +5,7 @@
 #include <algorithm>
 #include <cstdio>
 #define FOR(II, NN) for (int II = 0; II < NN; II++)
+
+struct match {
+    int genomePos, readPos, length;
+};
