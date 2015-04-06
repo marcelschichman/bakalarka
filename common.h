@@ -5,3 +5,5 @@
 #include <algorithm>
 #include <cstdio>
 #define FOR(II, NN) for (int II = 0; II < NN; II++)
+
+#define THE_APP main

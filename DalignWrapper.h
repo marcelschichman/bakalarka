@@ -4,7 +4,7 @@
 #include "Sequence.h"
 namespace dalign {
     extern "C" {
-#include "align.h"
+#include "DALIGN/align.h"
     }
 }
 using namespace std;

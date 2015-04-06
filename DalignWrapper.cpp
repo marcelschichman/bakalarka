@@ -93,7 +93,7 @@ bool Alignment::GetAlignedPairs(vector<pair<int, int> >& pairs) {
     if (status < AS_TRACE) {
         return false;
     }
-    int p, c; /* Output columns of alignment til reach trace end */
+    int p, c;
     int i = path.abpos + 1;
     int j = path.bbpos + 1;
     // copy-pasterino

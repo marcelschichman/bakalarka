@@ -35,14 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/DB.o \
+	${OBJECTDIR}/DALIGN/DB.o \
+	${OBJECTDIR}/DALIGN/QV.o \
+	${OBJECTDIR}/DALIGN/align.o \
 	${OBJECTDIR}/DalignWrapper.o \
-	${OBJECTDIR}/QV.o \
 	${OBJECTDIR}/SeedFinder.o \
 	${OBJECTDIR}/SeedFinder_hashmap.o \
 	${OBJECTDIR}/Sequence.o \
-	${OBJECTDIR}/align.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/Timer.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/trace_spacing_test.o
 
 
 # C Compiler Flags
@@ -69,20 +71,25 @@ ${CND_DISTDIR}/${CND_CONF}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF} ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/DB.o: DB.c 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/DALIGN/DB.o: DALIGN/DB.c 
+	${MKDIR} -p ${OBJECTDIR}/DALIGN
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DB.o DB.c
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/DB.o DALIGN/DB.c
+
+${OBJECTDIR}/DALIGN/QV.o: DALIGN/QV.c 
+	${MKDIR} -p ${OBJECTDIR}/DALIGN
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/QV.o DALIGN/QV.c
+
+${OBJECTDIR}/DALIGN/align.o: DALIGN/align.c 
+	${MKDIR} -p ${OBJECTDIR}/DALIGN
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/align.o DALIGN/align.c
 
 ${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
-
-${OBJECTDIR}/QV.o: QV.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/QV.o QV.c
 
 ${OBJECTDIR}/SeedFinder.o: SeedFinder.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -99,15 +106,20 @@ ${OBJECTDIR}/Sequence.o: Sequence.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sequence.o Sequence.cpp
 
-${OBJECTDIR}/align.o: align.c 
+${OBJECTDIR}/Timer.o: Timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/align.o align.c
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Timer.o Timer.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/trace_spacing_test.o: trace_spacing_test.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/trace_spacing_test.o trace_spacing_test.cpp
 
 # Subprojects
 .build-subprojects:
