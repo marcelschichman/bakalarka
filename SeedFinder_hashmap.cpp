@@ -12,7 +12,7 @@ bool comparePairsByDiagonal(pair<int, int> left, pair<int, int> right) {
     return (leftDiagonal == rightDiagonal) ? (left.first < right.first) : (leftDiagonal < rightDiagonal);
 }
 
-void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<match>& seeds) {
+void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<Match>& seeds) {
     vector<pair<int, int>> kMerPairs;
 
     FOR(i, (int)read.data.length() - length + 1) {
@@ -32,7 +32,7 @@ void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<match>& s
         if (previous.first == ppair.first - 1 && previous.second == ppair.second - 1) {
             seeds.back().length++;
         } else {
-            match newMatch = {ppair.first, ppair.second, length};
+            Match newMatch = {ppair.first, ppair.second, length};
             seeds.push_back(newMatch);
         }
         previous = ppair;

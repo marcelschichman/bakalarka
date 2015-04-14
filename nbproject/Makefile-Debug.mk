@@ -39,11 +39,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/DALIGN/QV.o \
 	${OBJECTDIR}/DALIGN/align.o \
 	${OBJECTDIR}/DalignWrapper.o \
+	${OBJECTDIR}/SAMOutput.o \
 	${OBJECTDIR}/SeedFinder.o \
 	${OBJECTDIR}/SeedFinder_hashmap.o \
 	${OBJECTDIR}/Sequence.o \
 	${OBJECTDIR}/Timer.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/simple_test.o \
 	${OBJECTDIR}/trace_spacing_test.o
 
 
@@ -91,6 +93,11 @@ ${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
 
+${OBJECTDIR}/SAMOutput.o: SAMOutput.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SAMOutput.o SAMOutput.cpp
+
 ${OBJECTDIR}/SeedFinder.o: SeedFinder.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -115,6 +122,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/simple_test.o: simple_test.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/simple_test.o simple_test.cpp
 
 ${OBJECTDIR}/trace_spacing_test.o: trace_spacing_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}

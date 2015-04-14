@@ -2,7 +2,7 @@
 #include "common.h"
 #include "Sequence.h"
 
-struct match {
+struct Match {
     int genomePos, readPos, length;
     operator pair<int, int>() {
         return make_pair(genomePos, readPos);
@@ -12,5 +12,5 @@ struct match {
 
 class SeedFinder {
     virtual void CreateIndexFromGenome(const Sequence& genome) = 0;
-    virtual void GetSeedsWithRead(const Sequence& read, vector<match>& seeds) = 0;
+    virtual void GetSeedsWithRead(const Sequence& read, vector<Match>& seeds) = 0;
 };

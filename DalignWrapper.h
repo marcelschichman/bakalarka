@@ -16,8 +16,9 @@ public:
     int GetLengthOnA();
     int GetLengthOnB();
     bool ComputeTrace();
-    bool GetAlignedPairs(vector<pair<int, int>>&pairs);
+    bool GetAlignedPairs(vector<pair<int, int>>&pairs) const;
     bool PrintAlignment(const string& filename);
+    bool GetCigarString(string &cigar) const;
 private:
     void Prepare(Sequence& _A, Sequence& _B, dalign::Work_Data* _workData, int _traceSpacing);
     dalign::Alignment alignment;

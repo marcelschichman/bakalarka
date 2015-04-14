@@ -10,6 +10,7 @@
         <itemPath>DALIGN/align.h</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.h</itemPath>
+      <itemPath>SAMOutput.h</itemPath>
       <itemPath>SeedFinder.h</itemPath>
       <itemPath>SeedFinder_hashmap.h</itemPath>
       <itemPath>Sequence.h</itemPath>
@@ -29,9 +30,11 @@
         <itemPath>DALIGN/align.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="tests" projectFiles="true">
+        <itemPath>simple_test.cpp</itemPath>
         <itemPath>trace_spacing_test.cpp</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.cpp</itemPath>
+      <itemPath>SAMOutput.cpp</itemPath>
       <itemPath>SeedFinder.cpp</itemPath>
       <itemPath>SeedFinder_hashmap.cpp</itemPath>
       <itemPath>Sequence.cpp</itemPath>
@@ -82,6 +85,10 @@
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SAMOutput.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SAMOutput.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SeedFinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SeedFinder.h" ex="false" tool="3" flavor2="0">
@@ -101,6 +108,8 @@
       <item path="common.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="simple_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="trace_spacing_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -146,6 +155,10 @@
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SAMOutput.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SAMOutput.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SeedFinder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SeedFinder.h" ex="false" tool="3" flavor2="0">
@@ -165,6 +178,8 @@
       <item path="common.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="simple_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="trace_spacing_test.cpp" ex="false" tool="1" flavor2="0">
       </item>

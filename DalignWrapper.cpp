@@ -88,7 +88,7 @@ bool Alignment::PrintAlignment(const string& filename) {
     return true;
 }
 
-bool Alignment::GetAlignedPairs(vector<pair<int, int> >& pairs) {
+bool Alignment::GetAlignedPairs(vector<pair<int, int> >& pairs) const {
     pairs.clear();
     if (status < AS_TRACE) {
         return false;
@@ -98,17 +98,17 @@ bool Alignment::GetAlignedPairs(vector<pair<int, int> >& pairs) {
     int j = path.bbpos + 1;
     // copy-pasterino
     for (c = 0; c < path.tlen; c++)
-        if ((p = ((int*)path.trace)[c]) < 0) {
+        if ((p = ((int*) path.trace)[c]) < 0) {
             p = -p;
             while (i != p) {
-                pairs.push_back(make_pair(i, j));
+                pairs.push_back(make_pair(i - 1, j - 1));
                 i += 1;
                 j += 1;
             }
             j += 1;
         } else {
             while (j != p) {
-                pairs.push_back(make_pair(i, j));
+                pairs.push_back(make_pair(i - 1, j - 1));
                 i += 1;
                 j += 1;
             }
@@ -116,10 +116,65 @@ bool Alignment::GetAlignedPairs(vector<pair<int, int> >& pairs) {
         }
     p = path.aepos;
     while (i <= p) {
-        pairs.push_back(make_pair(i, j));
+        pairs.push_back(make_pair(i - 1, j - 1));
         i += 1;
         j += 1;
     }
-    
+
     return true;
+}
+
+bool Alignment::GetCigarString(string& cigar) const {
+    cigar.clear();
+    if (status < AS_TRACE) {
+        return false;
+    }
+
+    int p, c;
+    int i = path.abpos + 1;
+    int j = path.bbpos + 1;
+    int counter = 0;
+    // copy-pasterino
+    for (c = 0; c < path.tlen; c++) {
+        if (c > 0 && ((int*) path.trace)[c] != ((int*) path.trace)[c - 1]) {
+            cigar.append(to_string(counter) + (((int*) path.trace)[c - 1] < 0 ? "I" : "D"));
+        }
+        if ((p = ((int*) path.trace)[c]) < 0) {
+            p = -p;
+            int Ms = 0;
+            while (i != p) {
+                Ms++;
+                i += 1;
+                j += 1;
+            }
+            if (Ms) {
+                cigar.append(to_string(Ms) + "M");
+                counter = 0;
+            }
+            j += 1;
+        } else {
+            int Ms = 0;
+            while (j != p) {
+                Ms++;
+                counter = 0;
+                i += 1;
+                j += 1;
+            }
+            if (Ms) {
+                cigar.append(to_string(Ms) + "M");
+                counter = 0;
+            }
+            i += 1;
+        }
+        counter++;
+    }
+    if (counter) {
+        cigar.append(to_string(counter) + (((int*) path.trace)[path.tlen - 1] < 0 ? "I" : "D"));
+    }
+    
+    int Ms = path.aepos - i + 1;
+    if (Ms) {
+        cigar.append(to_string(Ms) + "M");
+    }
+
 }
