@@ -1,15 +1,12 @@
 #include "SAMOutput.h"
 
-SAMOutput::SAMOutput(const string& filename)
-: os(filename.c_str()) {
+bool SAMOutput::PrintCustomHeader(const Sequence& _genome) {
     os << "@HLAVICKA" << endl;
 }
 
-SAMOutput::~SAMOutput() {
-}
 
-void SAMOutput::AddAlignment(const Sequence& seq, const Alignment& al) {
+bool SAMOutput::PrintCustomAlignment(const Alignment& al, const Sequence& read) {
     string cigar;
     al.GetCigarString(cigar);
-    os << seq.id << " " << seq.data << " " << cigar << endl;
+    os << read.GetId() << " " << read.GetData() << " " << cigar << endl;
 }

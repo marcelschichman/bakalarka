@@ -39,13 +39,16 @@ OBJECTFILES= \
 	${OBJECTDIR}/DALIGN/QV.o \
 	${OBJECTDIR}/DALIGN/align.o \
 	${OBJECTDIR}/DalignWrapper.o \
+	${OBJECTDIR}/Output.o \
 	${OBJECTDIR}/SAMOutput.o \
 	${OBJECTDIR}/SeedFinder.o \
 	${OBJECTDIR}/SeedFinder_hashmap.o \
 	${OBJECTDIR}/Sequence.o \
 	${OBJECTDIR}/Timer.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/read_selector.o \
 	${OBJECTDIR}/simple_test.o \
+	${OBJECTDIR}/time_test.o \
 	${OBJECTDIR}/trace_spacing_test.o
 
 
@@ -93,6 +96,11 @@ ${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
 
+${OBJECTDIR}/Output.o: Output.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Output.o Output.cpp
+
 ${OBJECTDIR}/SAMOutput.o: SAMOutput.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -123,10 +131,20 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
+${OBJECTDIR}/read_selector.o: read_selector.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/read_selector.o read_selector.cpp
+
 ${OBJECTDIR}/simple_test.o: simple_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/simple_test.o simple_test.cpp
+
+${OBJECTDIR}/time_test.o: time_test.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/time_test.o time_test.cpp
 
 ${OBJECTDIR}/trace_spacing_test.o: trace_spacing_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}

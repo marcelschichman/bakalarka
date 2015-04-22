@@ -1,8 +1,8 @@
 #include "SeedFinder_hashmap.h"
 
 void SeedFinder_hashmap::CreateIndexFromGenome(const Sequence& genome) {
-    FOR(i, genome.data.length() - length + 1) {
-        kMerMap[genome.data.substr(i, length)].push_back(i);
+    FOR(i, (int)genome.GetData().length() - length + 1) {
+        kMerMap[genome.GetData().substr(i, length)].push_back(i);
     }
 }
 
@@ -15,8 +15,8 @@ bool comparePairsByDiagonal(pair<int, int> left, pair<int, int> right) {
 void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<Match>& seeds) {
     vector<pair<int, int>> kMerPairs;
 
-    FOR(i, (int)read.data.length() - length + 1) {
-        string kMer = read.data.substr(i, length);
+    FOR(i, (int)read.GetData().length() - length + 1) {
+        string kMer = read.GetData().substr(i, length);
         auto positions = kMerMap.find(kMer);
         if (positions != kMerMap.end()) {
             for (int position : positions->second) {

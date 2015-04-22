@@ -24,7 +24,7 @@ int SIMPLE_TEST(int argc, char** argv) {
     al.GetAlignedPairs(pairs);
     
     for (auto &p : pairs) {
-        cout << p.first << " " << p.second << " " << a.data[p.first] << " " << b.data[p.second] << endl;
+        cout << p.first << " " << p.second << " " << a.GetData()[p.first] << " " << b.GetData()[p.second] << endl;
     }
     string CIGAR;
     al.GetCigarString(CIGAR);

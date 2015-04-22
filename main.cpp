@@ -10,7 +10,7 @@ using namespace std;
 
 int THE_APP(int argc, char** argv) {
     string genomeFilename = "genome.fasta";
-    string readsFilename = "pacbio_10kb.fastq";
+    string readsFilename = "pacbio_subset.fastq";
     string outputFilename = "output.txt";
     
     if (argc == 4) {
@@ -25,28 +25,28 @@ int THE_APP(int argc, char** argv) {
     FASTQ fastq(readsFilename);
     fasta >> a;
     
-    SAMOutput soutput(outputFilename);
+    SAMOutput soutput(outputFilename, a);
 
     // prepare wrapper
     DalignWrapper dw;
     dw.SetAligningParameters(0.70, 5, {0.25, 0.25, 0.25, 0.25});
 
     // find seeds
-    SeedFinder_hashmap sf(30);
+    SeedFinder_hashmap sf(15);
     sf.CreateIndexFromGenome(a);
         
     int readCounter = 0;
     while (fastq >> b) {
-        if (b.data.length() < 1000) {
+        /*if (b.data.length() < 1000) {
             continue;
-        }
-        cout << readCounter++ << " ";
+        }*/
+        //cout << readCounter++ << " ";
         
         vector<Match> matches;
         sf.GetSeedsWithRead(b, matches);
-        
         set<pair<int, int>> alignedPairs;
         
+        int longestAlignment = 0;
         int alignmentsCounter = 0;
         for (Match &match : matches) {
             if (alignedPairs.find(make_pair(match.genomePos+15, match.readPos+15)) != alignedPairs.end()) {
@@ -54,17 +54,21 @@ int THE_APP(int argc, char** argv) {
             }
             Alignment al;
             dw.ComputeAlignment(a, b, match, al);
-            cout << al.GetLengthOnB() << " " << b.data.length() << " " << (matches.front().genomePos - matches.front().readPos) << endl;
+            //cout << al.GetLengthOnB() << " " << b.data.length() << " " << (matches.front().genomePos - matches.front().readPos) << endl;
             
             vector<pair<int, int>> pairs;
             al.ComputeTrace();
             al.GetAlignedPairs(pairs);
             alignedPairs.insert(pairs.begin(), pairs.end());
             
-            if (al.GetLengthOnB() == b.data.length()) {
-                soutput.AddAlignment(b, al);
+            longestAlignment = max(longestAlignment, al.GetLengthOnB());
+            
+            if (al.GetLengthOnB() >= b.GetData().length() - 20) {
+                soutput.AddAlignment(al, b);
+                break;
             }
         }
+        cout << longestAlignment << endl;
     }
 }
 

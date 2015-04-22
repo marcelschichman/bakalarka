@@ -46,9 +46,9 @@ void Alignment::Prepare(Sequence& _A, Sequence& _B, dalign::Work_Data* _workData
     traceSpacing = _traceSpacing;
     alignment.path = &path;
     alignment.aseq = _A.ToDalignFromat();
-    alignment.alen = _A.data.length();
+    alignment.alen = _A.GetData().length();
     alignment.bseq = _B.ToDalignFromat();
-    alignment.blen = _B.data.length();
+    alignment.blen = _B.GetData().length();
     alignment.flags = 0;
 }
 
@@ -171,7 +171,7 @@ bool Alignment::GetCigarString(string& cigar) const {
     if (counter) {
         cigar.append(to_string(counter) + (((int*) path.trace)[path.tlen - 1] < 0 ? "I" : "D"));
     }
-    
+
     int Ms = path.aepos - i + 1;
     if (Ms) {
         cigar.append(to_string(Ms) + "M");

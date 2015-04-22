@@ -42,8 +42,8 @@ int TRACE_SPACING_TEST(int argc, char** argv) {
     FASTQ fastq("pacbio_10kb.fastq");
     fasta >> a;
     FOR(i, 15) fastq >> b;
-    cout << "genome length: " << a.data.length() << endl;
-    cout << "read length: " << b.data.length() << endl;
+    cout << "genome length: " << a.GetData().length() << endl;
+    cout << "read length: " << b.GetData().length() << endl;
 
     cout << "spacing\talignment\ttrace\n";
     test(1);

@@ -1,14 +1,14 @@
 #pragma once
 #include "common.h"
-#include <fstream>
-#include "DalignWrapper.h"
+#include "Output.h"
 using namespace std;
 
-class SAMOutput {
+class SAMOutput : public Output {
 public:
-    SAMOutput(const string &filename);
-    void AddAlignment(const Sequence& seq, const Alignment& al);
-    virtual ~SAMOutput();
-private:
-    ofstream os; 
+    SAMOutput(const string& _filename, const Sequence& _genome) :
+    Output(_filename, _genome) {
+    }
+    virtual bool PrintCustomAlignment(const Alignment& al, const Sequence& read);
+    virtual bool PrintCustomHeader(const Sequence& _genome);
+
 };

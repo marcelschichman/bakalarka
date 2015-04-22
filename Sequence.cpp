@@ -41,7 +41,7 @@ Sequence::Sequence(const string& _data, string _id)
 
 char* Sequence::ToDalignFromat() {
     if (dalignFromat != NULL) {
-        delete dalignFromat;
+        return dalignFromat + 1;
     }
     int l = data.length();
     dalignFromat = new char[l + 2];
