@@ -13,8 +13,8 @@ class Alignment {
     friend class DalignWrapper;
 public:
     Alignment();
-    int GetLengthOnA();
-    int GetLengthOnB();
+    int GetLengthOnA() const;
+    int GetLengthOnB() const;
     bool ComputeTrace();
     bool GetAlignedPairs(vector<pair<int, int>>&pairs) const;
     bool PrintAlignment(const string& filename);

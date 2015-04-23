@@ -8,7 +8,7 @@ class Sequence {
 public:
     Sequence();
     Sequence(const string& _data, string _id = string());
-    Sequence(const Sequence& orig);
+    Sequence(const Sequence& orig, bool remapReverse = false);
     virtual ~Sequence();
 
     char* ToDalignFromat();
@@ -36,7 +36,7 @@ private:
 
 class FASTQ {
 public:
-    FASTQ(const string& filename, bool _doReverseRemap = true);
+    FASTQ(const string& filename);
 
     FASTQ& operator>>(Sequence& seq);
 
@@ -45,6 +45,10 @@ public:
     };
 private:
     ifstream is;
-    bool doReverseRemap;
     bool isOk;
+};
+
+enum Direction {
+    EDIR_FORWARD,
+    EDIR_BACKWARD
 };

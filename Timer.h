@@ -11,5 +11,5 @@ class Timer {
 public:
     static void startTiming();
     static double getTimerResult();
-    static void verbalResult(const string& name);
+    static double verbalResult(const string& name);
 };

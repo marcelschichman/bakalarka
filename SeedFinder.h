@@ -12,5 +12,5 @@ struct Match {
 
 class SeedFinder {
     virtual void CreateIndexFromGenome(const Sequence& genome) = 0;
-    virtual void GetSeedsWithRead(const Sequence& read, vector<Match>& seeds) = 0;
+    virtual void GetSeedsWithRead(const Sequence& read, vector<Match>& forwardSeeds, vector<Match>& reverseSeeds) = 0;
 };

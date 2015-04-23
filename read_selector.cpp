@@ -1,6 +1,8 @@
 #include "common.h"
 #include <cstdlib>
 #include <fstream>
+#include <iomanip>
+#include <sstream>
 using namespace std;
 
 ifstream is;
@@ -18,7 +20,7 @@ bool ReadRead(string &a, string &b, string &c, string &d) {
     return true;
 }
 
-bool WriteRead(string &a, string &b, string &c, string &d) {
+bool WriteRead(const string &a, const string &b, const string &c, const string &d) {
     os << a << endl << b << endl << c << endl << d << endl;
 }
 
@@ -37,16 +39,16 @@ int READ_SELECTOR(int argc, char** argv) {
     unsigned int startPos = 0;
     
     if (argc >= 4) {
-        n_orig = n = stoul(argv[4]);
+        n_orig = n = atoi(argv[3]);
     }
     if (argc >= 5) {
-        minLength = stoul(argv[5]);
+        minLength = atoi(argv[4]);
     }
     if (argc >= 6) {
-        startPos = stoul(argv[6]);
+        startPos = atoi(argv[5]);
     }
     if (argc >= 7) {
-        maxLength = stoul(argv[7]);
+        maxLength = atoi(argv[6]);
     }
     
     string a, b, c, d;
@@ -54,9 +56,11 @@ int READ_SELECTOR(int argc, char** argv) {
         startPos--;
     }
     
-    while (n > 0 && ReadRead(a, b, c, d)) {
+    while (n != 0 && ReadRead(a, b, c, d)) {
         if (b.length() >= minLength && b.length() <= maxLength) {
-            WriteRead(a, b, c, d);
+            ostringstream name;
+            name << "@READ" << setw(5) << setfill('0') << (n_orig - n);
+            WriteRead(name.str(), b, c, d);
             n--;
         }
     }

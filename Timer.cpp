@@ -12,6 +12,8 @@ void Timer::startTiming() {
     tpts.push_back(chrono::system_clock::now());
 }
 
-void Timer::verbalResult(const string& name) {
-    cout << name << " took " << getTimerResult() << "s" << endl;
+double Timer::verbalResult(const string& name) {
+    double result = getTimerResult();
+    cout << name << " took " << result << "s" << endl;
+    return result;
 }

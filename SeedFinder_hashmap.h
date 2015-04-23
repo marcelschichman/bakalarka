@@ -11,8 +11,11 @@ public:
     }
 
     virtual void CreateIndexFromGenome(const Sequence& genome);
-    virtual void GetSeedsWithRead(const Sequence& read, vector<Match>& seeds);
-private:
+    virtual void GetSeedsWithRead(const Sequence& read, vector<Match>& forwardSeeds, vector<Match>& reverseSeeds);
+protected:
     int length;
     unordered_map<string, vector<int>> kMerMap;
+    unordered_map<string, vector<int>> kMerMapReversed;
+    
+    void ExpandPairs(vector<pair<int, int>>& kMerPairs, vector<Match>& seeds);
 };

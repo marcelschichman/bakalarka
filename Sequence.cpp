@@ -24,8 +24,16 @@ Sequence::Sequence()
 : dalignFromat(NULL) {
 }
 
-Sequence::Sequence(const Sequence& orig)
-: Sequence(orig.data, orig.id) {
+Sequence::Sequence(const Sequence& orig, bool remapReverse)
+: id(orig.id), dalignFromat(NULL)  {
+    if (remapReverse) {
+        for (char c : orig.data) {
+            data.push_back(Remap(c));
+        }
+        reverse(data.begin(), data.end());
+    } else {
+        data = orig.data;
+    }
 }
 
 Sequence::~Sequence() {
@@ -83,8 +91,8 @@ FASTA& FASTA::operator>>(Sequence& seq) {
     return *this;
 }
 
-FASTQ::FASTQ(const string& filename, bool _doReverseRemap)
-: is(filename.c_str()), doReverseRemap(_doReverseRemap), isOk(true) {
+FASTQ::FASTQ(const string& filename)
+: is(filename.c_str()), isOk(true) {
 }
 
 FASTQ& FASTQ::operator>>(Sequence& seq) {
@@ -101,10 +109,7 @@ FASTQ& FASTQ::operator>>(Sequence& seq) {
     if (isOk) {
         isOk &= (bool)getline(is, line);
         for (char c : line) {
-            data.push_back(doReverseRemap ? Remap(c) : ToUpperCase(c));
-        }
-        if (doReverseRemap) {
-            reverse(data.begin(), data.end());
+            data.push_back(ToUpperCase(c));
         }
     }
     if (isOk) {

@@ -10,6 +10,7 @@
         <itemPath>DALIGN/align.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="output" projectFiles="true">
+        <itemPath>BlasrOutput.h</itemPath>
         <itemPath>Output.h</itemPath>
         <itemPath>SAMOutput.h</itemPath>
       </logicalFolder>
@@ -33,6 +34,7 @@
         <itemPath>DALIGN/align.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="output" projectFiles="true">
+        <itemPath>BlasrOutput.cpp</itemPath>
         <itemPath>Output.cpp</itemPath>
         <itemPath>SAMOutput.cpp</itemPath>
       </logicalFolder>
@@ -77,6 +79,10 @@
           <output>${CND_DISTDIR}/${CND_CONF}</output>
         </linkerTool>
       </compileType>
+      <item path="BlasrOutput.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BlasrOutput.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="DALIGN/DB.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="DALIGN/DB.h" ex="false" tool="3" flavor2="0">
@@ -155,6 +161,10 @@
           <commandlineTool>g++</commandlineTool>
         </linkerTool>
       </compileType>
+      <item path="BlasrOutput.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BlasrOutput.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="DALIGN/DB.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="DALIGN/DB.h" ex="false" tool="3" flavor2="0">

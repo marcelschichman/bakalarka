@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/BlasrOutput.o \
 	${OBJECTDIR}/DALIGN/DB.o \
 	${OBJECTDIR}/DALIGN/QV.o \
 	${OBJECTDIR}/DALIGN/align.o \
@@ -75,6 +76,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF} ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/BlasrOutput.o: BlasrOutput.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BlasrOutput.o BlasrOutput.cpp
 
 ${OBJECTDIR}/DALIGN/DB.o: DALIGN/DB.c 
 	${MKDIR} -p ${OBJECTDIR}/DALIGN

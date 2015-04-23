@@ -52,7 +52,7 @@ void Alignment::Prepare(Sequence& _A, Sequence& _B, dalign::Work_Data* _workData
     alignment.flags = 0;
 }
 
-int Alignment::GetLengthOnA() {
+int Alignment::GetLengthOnA() const {
     if (status < AS_ALIGNMENT) {
         return -1;
     }
@@ -60,7 +60,7 @@ int Alignment::GetLengthOnA() {
     return path.aepos - path.abpos;
 }
 
-int Alignment::GetLengthOnB() {
+int Alignment::GetLengthOnB() const {
     if (status < AS_ALIGNMENT) {
         return -1;
     }

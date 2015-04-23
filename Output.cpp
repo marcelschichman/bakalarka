@@ -18,9 +18,9 @@ bool Output::Init() {
     return false;
 }
 
-bool Output::AddAlignment(const Alignment& al, const Sequence& read) {
+bool Output::AddAlignment(const Alignment& al, const Sequence& read, Direction dir) {
     if (isInitialized) {
-        return PrintCustomAlignment(al, read);
+        return PrintCustomAlignment(al, read, dir);
     }
     return false;
 }

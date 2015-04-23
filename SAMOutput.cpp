@@ -5,7 +5,7 @@ bool SAMOutput::PrintCustomHeader(const Sequence& _genome) {
 }
 
 
-bool SAMOutput::PrintCustomAlignment(const Alignment& al, const Sequence& read) {
+bool SAMOutput::PrintCustomAlignment(const Alignment& al, const Sequence& read, Direction dir) {
     string cigar;
     al.GetCigarString(cigar);
     os << read.GetId() << " " << read.GetData() << " " << cigar << endl;

@@ -6,4 +6,4 @@
 #include <cstdio>
 #define FOR(II, NN) for (int II = 0; II < NN; II++)
 
-#define READ_SELECTOR main
+#define THE_APP main
