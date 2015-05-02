@@ -178,3 +178,19 @@ bool Alignment::GetCigarString(string& cigar) const {
     }
 
 }
+
+pair<int, int> Alignment::GetPosOnA() const {
+    if (status < AS_ALIGNMENT) {
+        return make_pair(0, 0);
+    }
+    
+    return make_pair(path.abpos, path.aepos);
+}
+
+pair<int, int> Alignment::GetPosOnB() const {
+    if (status < AS_ALIGNMENT) {
+        return make_pair(0, 0);
+    }
+    
+    return make_pair(path.bbpos, path.bepos);
+}

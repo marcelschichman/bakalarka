@@ -3,12 +3,11 @@
 #include "Sequence.h"
 
 struct Match {
-    int genomePos, readPos, length;
+    int genomePos, readPos, length, score;
     operator pair<int, int>() {
         return make_pair(genomePos, readPos);
     }
 };
-
 
 class SeedFinder {
     virtual void CreateIndexFromGenome(const Sequence& genome) = 0;

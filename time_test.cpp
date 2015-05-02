@@ -22,7 +22,7 @@ int GetGroup(int x);
 
 int TIME_TEST(int argc, char** argv) {
     //header
-    /*cout << "*** Execution time test ***" << endl;
+    cout << "*** Execution time test ***" << endl;
     cout << "This tests tests how much the length of the alignment influences the execution time of function calls." << endl;
     cout << "One time operations: " << endl;
     
@@ -67,7 +67,7 @@ int TIME_TEST(int argc, char** argv) {
         // get seed finder time
         Timer::startTiming();
         vector<Match> matches;
-        sf.GetSeedsWithRead(b, matches);
+        //sf.GetSeedsWithRead(b, matches);
         timesFindSeeds[GetGroup(b.GetData().size())].push_back(Timer::getTimerResult());        
         
         set<pair<int, int>> alignedPairs;
@@ -173,5 +173,5 @@ int GetGroup(int x) {
     for (result = 0; result < groups.size(); result++)
         if (x <= groups[result])
             return result;
-    throw 1;*/
+    throw 1;
 }

@@ -15,6 +15,8 @@ public:
     Alignment();
     int GetLengthOnA() const;
     int GetLengthOnB() const;
+    pair<int, int> GetPosOnA() const;
+    pair<int, int> GetPosOnB() const;
     bool ComputeTrace();
     bool GetAlignedPairs(vector<pair<int, int>>&pairs) const;
     bool PrintAlignment(const string& filename);

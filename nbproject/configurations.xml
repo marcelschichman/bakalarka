@@ -15,6 +15,7 @@
         <itemPath>SAMOutput.h</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.h</itemPath>
+      <itemPath>MatchFilter.h</itemPath>
       <itemPath>SeedFinder.h</itemPath>
       <itemPath>SeedFinder_hashmap.h</itemPath>
       <itemPath>Sequence.h</itemPath>
@@ -45,6 +46,7 @@
         <itemPath>trace_spacing_test.cpp</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.cpp</itemPath>
+      <itemPath>MatchFilter.cpp</itemPath>
       <itemPath>SeedFinder.cpp</itemPath>
       <itemPath>SeedFinder_hashmap.cpp</itemPath>
       <itemPath>Sequence.cpp</itemPath>
@@ -98,6 +100,10 @@
       <item path="DalignWrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MatchFilter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MatchFilter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Output.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -180,6 +186,10 @@
       <item path="DalignWrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MatchFilter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MatchFilter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Output.cpp" ex="false" tool="1" flavor2="0">
       </item>

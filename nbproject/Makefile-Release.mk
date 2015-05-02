@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/DALIGN/QV.o \
 	${OBJECTDIR}/DALIGN/align.o \
 	${OBJECTDIR}/DalignWrapper.o \
+	${OBJECTDIR}/MatchFilter.o \
 	${OBJECTDIR}/Output.o \
 	${OBJECTDIR}/SAMOutput.o \
 	${OBJECTDIR}/SeedFinder.o \
@@ -101,6 +102,11 @@ ${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
+
+${OBJECTDIR}/MatchFilter.o: MatchFilter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatchFilter.o MatchFilter.cpp
 
 ${OBJECTDIR}/Output.o: Output.cpp 
 	${MKDIR} -p ${OBJECTDIR}
