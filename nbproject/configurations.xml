@@ -15,11 +15,11 @@
         <itemPath>SAMOutput.h</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.h</itemPath>
-      <itemPath>MatchFilter.h</itemPath>
       <itemPath>SeedFinder.h</itemPath>
       <itemPath>SeedFinder_hashmap.h</itemPath>
+      <itemPath>SeedFinder_hashmap_2bit.h</itemPath>
       <itemPath>Sequence.h</itemPath>
-      <itemPath>Timer.h</itemPath>
+      <itemPath>Utility.h</itemPath>
       <itemPath>common.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -40,17 +40,20 @@
         <itemPath>SAMOutput.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="tests" projectFiles="true">
+        <itemPath>SeedFinder_test.cpp</itemPath>
+        <itemPath>efficiency_test.cpp</itemPath>
+        <itemPath>newmain.cpp</itemPath>
         <itemPath>read_selector.cpp</itemPath>
         <itemPath>simple_test.cpp</itemPath>
         <itemPath>time_test.cpp</itemPath>
         <itemPath>trace_spacing_test.cpp</itemPath>
       </logicalFolder>
       <itemPath>DalignWrapper.cpp</itemPath>
-      <itemPath>MatchFilter.cpp</itemPath>
       <itemPath>SeedFinder.cpp</itemPath>
       <itemPath>SeedFinder_hashmap.cpp</itemPath>
+      <itemPath>SeedFinder_hashmap_2bit.cpp</itemPath>
       <itemPath>Sequence.cpp</itemPath>
-      <itemPath>Timer.cpp</itemPath>
+      <itemPath>Utility.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -79,6 +82,9 @@
         </ccTool>
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}</output>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs opencv`</linkerOptionItem>
+          </linkerLibItems>
         </linkerTool>
       </compileType>
       <item path="BlasrOutput.cpp" ex="false" tool="1" flavor2="0">
@@ -101,10 +107,6 @@
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MatchFilter.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="MatchFilter.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Output.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Output.h" ex="false" tool="3" flavor2="0">
@@ -121,17 +123,27 @@
       </item>
       <item path="SeedFinder_hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SeedFinder_hashmap_2bit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sequence.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Timer.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Utility.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Timer.h" ex="false" tool="3" flavor2="0">
+      <item path="Utility.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="common.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="efficiency_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="newmain.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="read_selector.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -151,10 +163,12 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <commandLine>-pg</commandLine>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
           <standard>8</standard>
+          <commandLine>-pg</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -165,6 +179,10 @@
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}</output>
           <commandlineTool>g++</commandlineTool>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs opencv`</linkerOptionItem>
+          </linkerLibItems>
+          <commandLine>-pg</commandLine>
         </linkerTool>
       </compileType>
       <item path="BlasrOutput.cpp" ex="false" tool="1" flavor2="0">
@@ -187,10 +205,6 @@
       </item>
       <item path="DalignWrapper.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="MatchFilter.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="MatchFilter.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Output.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Output.h" ex="false" tool="3" flavor2="0">
@@ -207,17 +221,27 @@
       </item>
       <item path="SeedFinder_hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SeedFinder_hashmap_2bit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sequence.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Timer.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Utility.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Timer.h" ex="false" tool="3" flavor2="0">
+      <item path="Utility.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="common.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="efficiency_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="newmain.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="read_selector.cpp" ex="false" tool="1" flavor2="0">
       </item>

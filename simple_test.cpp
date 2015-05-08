@@ -1,6 +1,6 @@
 #include "common.h"
 #include "Sequence.h"
-#include "Timer.h"
+#include "Utility.h"
 #include "DalignWrapper.h"
 
 using namespace std;

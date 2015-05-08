@@ -1,6 +1,6 @@
 #include "common.h"
 #include "Sequence.h"
-#include "Timer.h"
+#include "Utility.h"
 #include "DalignWrapper.h"
 
 using namespace std;
@@ -13,21 +13,19 @@ Sequence a, b;
 void test(int spacing) {
     DalignWrapper dw;
     Alignment al;
-    dw.SetAligningParameters(0.7, spacing,{0.25, 0.25, 0.25, 0.25});
+    dw.SetAligningParameters(0.7, spacing, {0.25, 0.25, 0.25, 0.25});
 
     double compAlTimeSum = 0;
     double compTrTimeSum = 0;
 
     FOR(i, REPETITIONS) {
-        Timer::startTiming();
+        Utility::StartTiming();
         dw.ComputeAlignment(a, b, make_pair(GENOME_POS, READ_POS), al);
-        compAlTimeSum += Timer::getTimerResult();
-        ;
+        compAlTimeSum += Utility::GetTimerResult();
 
-        Timer::startTiming();
+        Utility::StartTiming();
         al.ComputeTrace();
-        compTrTimeSum += Timer::getTimerResult();
-        ;
+        compTrTimeSum += Utility::GetTimerResult();
     }
     cout << spacing << "\t" << compAlTimeSum / REPETITIONS << "\t" << compTrTimeSum / REPETITIONS << endl;
 }

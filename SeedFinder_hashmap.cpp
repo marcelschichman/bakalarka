@@ -1,6 +1,6 @@
 #include "SeedFinder_hashmap.h"
 
-void SeedFinder_hashmap::CreateIndexFromGenome(const Sequence& genome) {
+void SeedFinder_hashmap::CreateIndexFromGenome(Sequence& genome) {
     Sequence reversedGenome (genome, true);
     FOR(i, (int)genome.GetData().length() - length + 1) {
         kMerMap[genome.GetData().substr(i, length)].push_back(i);
@@ -8,13 +8,13 @@ void SeedFinder_hashmap::CreateIndexFromGenome(const Sequence& genome) {
     }
 }
 
-bool comparePairsByDiagonal(pair<int, int> left, pair<int, int> right) {
+bool SeedFinder_hashmap::comparePairsByDiagonal(pair<int, int> left, pair<int, int> right) {
     int leftDiagonal = left.second - left.first;
     int rightDiagonal = right.second - right.first;
     return (leftDiagonal == rightDiagonal) ? (left.first < right.first) : (leftDiagonal < rightDiagonal);
 }
 
-void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<Match>& forwardSeeds, vector<Match>& reverseSeeds) {
+void SeedFinder_hashmap::GetSeedsWithRead(Sequence& read, vector<Match>& forwardSeeds, vector<Match>& reverseSeeds) {
     vector<pair<int, int>> kMerPairs;
     vector<pair<int, int>> kMerPairsReversed;
 
@@ -39,7 +39,7 @@ void SeedFinder_hashmap::GetSeedsWithRead(const Sequence& read, vector<Match>& f
 }
 
 void SeedFinder_hashmap::ExpandPairs(vector<pair<int, int> >& kMerPairs, vector<Match>& seeds) {
-    sort(kMerPairs.begin(), kMerPairs.end(), comparePairsByDiagonal);
+    sort(kMerPairs.begin(), kMerPairs.end(), SeedFinder_hashmap::comparePairsByDiagonal);
 
     pair<int, int> previous = make_pair(-5, -5);
     for (auto ppair : kMerPairs) {

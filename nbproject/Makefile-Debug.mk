@@ -40,14 +40,17 @@ OBJECTFILES= \
 	${OBJECTDIR}/DALIGN/QV.o \
 	${OBJECTDIR}/DALIGN/align.o \
 	${OBJECTDIR}/DalignWrapper.o \
-	${OBJECTDIR}/MatchFilter.o \
 	${OBJECTDIR}/Output.o \
 	${OBJECTDIR}/SAMOutput.o \
 	${OBJECTDIR}/SeedFinder.o \
 	${OBJECTDIR}/SeedFinder_hashmap.o \
+	${OBJECTDIR}/SeedFinder_hashmap_2bit.o \
+	${OBJECTDIR}/SeedFinder_test.o \
 	${OBJECTDIR}/Sequence.o \
-	${OBJECTDIR}/Timer.o \
+	${OBJECTDIR}/Utility.o \
+	${OBJECTDIR}/efficiency_test.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/newmain.o \
 	${OBJECTDIR}/read_selector.o \
 	${OBJECTDIR}/simple_test.o \
 	${OBJECTDIR}/time_test.o \
@@ -68,7 +71,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=`pkg-config --libs opencv`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -81,87 +84,102 @@ ${CND_DISTDIR}/${CND_CONF}: ${OBJECTFILES}
 ${OBJECTDIR}/BlasrOutput.o: BlasrOutput.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BlasrOutput.o BlasrOutput.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BlasrOutput.o BlasrOutput.cpp
 
 ${OBJECTDIR}/DALIGN/DB.o: DALIGN/DB.c 
 	${MKDIR} -p ${OBJECTDIR}/DALIGN
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/DB.o DALIGN/DB.c
+	$(COMPILE.c) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/DB.o DALIGN/DB.c
 
 ${OBJECTDIR}/DALIGN/QV.o: DALIGN/QV.c 
 	${MKDIR} -p ${OBJECTDIR}/DALIGN
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/QV.o DALIGN/QV.c
+	$(COMPILE.c) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/QV.o DALIGN/QV.c
 
 ${OBJECTDIR}/DALIGN/align.o: DALIGN/align.c 
 	${MKDIR} -p ${OBJECTDIR}/DALIGN
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/align.o DALIGN/align.c
+	$(COMPILE.c) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DALIGN/align.o DALIGN/align.c
 
 ${OBJECTDIR}/DalignWrapper.o: DalignWrapper.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
-
-${OBJECTDIR}/MatchFilter.o: MatchFilter.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatchFilter.o MatchFilter.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DalignWrapper.o DalignWrapper.cpp
 
 ${OBJECTDIR}/Output.o: Output.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Output.o Output.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Output.o Output.cpp
 
 ${OBJECTDIR}/SAMOutput.o: SAMOutput.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SAMOutput.o SAMOutput.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SAMOutput.o SAMOutput.cpp
 
 ${OBJECTDIR}/SeedFinder.o: SeedFinder.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder.o SeedFinder.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder.o SeedFinder.cpp
 
 ${OBJECTDIR}/SeedFinder_hashmap.o: SeedFinder_hashmap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_hashmap.o SeedFinder_hashmap.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_hashmap.o SeedFinder_hashmap.cpp
+
+${OBJECTDIR}/SeedFinder_hashmap_2bit.o: SeedFinder_hashmap_2bit.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_hashmap_2bit.o SeedFinder_hashmap_2bit.cpp
+
+${OBJECTDIR}/SeedFinder_test.o: SeedFinder_test.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_test.o SeedFinder_test.cpp
 
 ${OBJECTDIR}/Sequence.o: Sequence.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sequence.o Sequence.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sequence.o Sequence.cpp
 
-${OBJECTDIR}/Timer.o: Timer.cpp 
+${OBJECTDIR}/Utility.o: Utility.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Timer.o Timer.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Utility.o Utility.cpp
+
+${OBJECTDIR}/efficiency_test.o: efficiency_test.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/efficiency_test.o efficiency_test.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/newmain.o: newmain.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/newmain.o newmain.cpp
 
 ${OBJECTDIR}/read_selector.o: read_selector.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/read_selector.o read_selector.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/read_selector.o read_selector.cpp
 
 ${OBJECTDIR}/simple_test.o: simple_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/simple_test.o simple_test.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/simple_test.o simple_test.cpp
 
 ${OBJECTDIR}/time_test.o: time_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/time_test.o time_test.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/time_test.o time_test.cpp
 
 ${OBJECTDIR}/trace_spacing_test.o: trace_spacing_test.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/trace_spacing_test.o trace_spacing_test.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/trace_spacing_test.o trace_spacing_test.cpp
 
 # Subprojects
 .build-subprojects:

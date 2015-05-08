@@ -1,9 +1,10 @@
 #include "common.h"
 #include "Sequence.h"
 #include "SeedFinder_hashmap.h"
-#include "Timer.h"
+#include "Utility.h"
 #include "DalignWrapper.h"
 #include "SAMOutput.h"
+#include "SeedFinder_hashmap_2bit.h"
 #include <forward_list>
 #include <set>
 #include <cstdlib>
@@ -17,6 +18,7 @@ vector<vector<double>> timesFindSeeds (groups.size());
 vector<vector<double>> timesFindInAligned (groups.size());
 
 int GetGroup(int x);
+int ExpandReads(Sequence &genome, Sequence &read, vector<Match> &matches, DalignWrapper &dw);
 
 #define NUM_READS 100000
 
@@ -27,7 +29,7 @@ int TIME_TEST(int argc, char** argv) {
     cout << "One time operations: " << endl;
     
     string genomeFilename = "genome.fasta";
-    string readsFilename = "pacbio_10kb.fastq";
+    string readsFilename = "pb_1000_plus.fastq";
     string outputFilename = "output.txt";
     
     if (argc == 4) {
@@ -41,77 +43,44 @@ int TIME_TEST(int argc, char** argv) {
     FASTA fasta(genomeFilename);
     FASTQ fastq(readsFilename);
     
-    Timer::startTiming();
+    Utility::StartTiming();
     fasta >> a;
-    Timer::verbalResult("Reading genome");
+    Utility::VerbalResult("Reading genome");
     cout << "Genome length: " << a.GetData().length() << endl;
+    Sequence ra (a, true);
     
     //SAMOutput soutput(outputFilename);
 
     // prepare wrapper
-    Timer::startTiming();
+    Utility::StartTiming();
     DalignWrapper dw;
-    dw.SetAligningParameters(0.70, 5, {0.25, 0.25, 0.25, 0.25});
-    Timer::verbalResult("Preparing DALIGN");
+    dw.SetAligningParameters(0.70, 50, {0.25, 0.25, 0.25, 0.25});
+    Utility::VerbalResult("Preparing DALIGN");
 
     // find seeds
-    Timer::startTiming();
-    SeedFinder_hashmap sf(20);
+    Utility::StartTiming();
+    SeedFinder_hashmap_2bit sf(20);
     sf.CreateIndexFromGenome(a);
-    Timer::verbalResult("Preparing seed finder");
+    Utility::VerbalResult("Preparing seed finder");
         
     int readCounter = 0;
     int progressBarPos = 0;
     
     while (fastq >> b) {
         // get seed finder time
-        Timer::startTiming();
-        vector<Match> matches;
-        //sf.GetSeedsWithRead(b, matches);
-        timesFindSeeds[GetGroup(b.GetData().size())].push_back(Timer::getTimerResult());        
+        Utility::StartTiming();
+        vector<Match> forwardMatches;
+        vector<Match> backwardMatches;
+        sf.GetSeedsWithRead(b, forwardMatches, backwardMatches);
+        timesFindSeeds[GetGroup(b.GetData().size())].push_back(Utility::GetTimerResult());   
         
-        set<pair<int, int>> alignedPairs;
+//        Utility::Filter(forwardMatches, backwardMatches, 300, 0.5);
         
-        int longestAlignment = 0;
-        int alignmentsCounter = 0;
-        for (Match &match : matches) {
-            Timer::startTiming();
-            if (alignedPairs.find(make_pair(match.genomePos+8, match.readPos+8)) != alignedPairs.end()) {
-                continue;
-            }
-            timesFindInAligned[GetGroup(b.GetData().size())].push_back(Timer::getTimerResult());  
-            
-            Alignment al;
-            
-            // get compute alignment time
-            Timer::startTiming();
-            dw.ComputeAlignment(a, b, match, al);
-            double computeAlignmentTime = Timer::getTimerResult();
-            
-            vector<pair<int, int>> pairs;
-            
-            // get compute trace time
-            Timer::startTiming();
-            al.ComputeTrace();
-            double computeTraceTime = Timer::getTimerResult();   
-            
-            // get aligned pairs time
-            Timer::startTiming();
-            al.GetAlignedPairs(pairs);
-            alignedPairs.insert(pairs.begin(), pairs.end());
-            double getPairsTime = Timer::getTimerResult();
-            
-            // get index of the group
-            int groupIndex = GetGroup(al.GetLengthOnB()); 
-            
-            // store value
-            timesAlignment[groupIndex].push_back(computeAlignmentTime);
-            timesTrace[groupIndex].push_back(computeTraceTime);
-            timesPointPairs[groupIndex].push_back(getPairsTime);
-            
-//            if (readCounter % 100 == 0)
-//                cout << readCounter << endl;
-        }
+        ExpandReads(a, b, forwardMatches, dw);
+        ExpandReads(ra, b, backwardMatches, dw);
+        
+        if (readCounter % 1000 == 0) 
+            clog << readCounter << endl;
         if (++readCounter >= NUM_READS)
             break;
     }
@@ -174,4 +143,51 @@ int GetGroup(int x) {
         if (x <= groups[result])
             return result;
     throw 1;
+}
+
+int ExpandReads(Sequence &a, Sequence &b, vector<Match> &matches, DalignWrapper &dw) {
+    AlignedPairsSet alignedPairs;
+
+    int longestAlignment = 0;
+    int alignmentsCounter = 0;
+    for (Match &match : matches) {
+        Utility::StartTiming();
+        if (alignedPairs.IsAligned(match)) {
+            continue;
+        }
+        timesFindInAligned[GetGroup(b.GetData().size())].push_back(Utility::GetTimerResult());  
+
+        Alignment al;
+
+        // get compute alignment time
+        Utility::StartTiming();
+        dw.ComputeAlignment(a, b, match, al);
+        double computeAlignmentTime = Utility::GetTimerResult();
+
+        vector<pair<int, int>> pairs;
+
+        // get compute trace time
+        Utility::StartTiming();
+        al.ComputeTrace();
+        double computeTraceTime = Utility::GetTimerResult();   
+
+        // get aligned pairs time
+        Utility::StartTiming();
+        al.GetAlignedPairs(pairs);
+        alignedPairs.MarkAsAligned(pairs);
+        double getPairsTime = Utility::GetTimerResult();
+
+        // get index of the group
+        int groupIndex = GetGroup(al.GetLengthOnB()); 
+
+        // store value
+        timesAlignment[groupIndex].push_back(computeAlignmentTime);
+        timesTrace[groupIndex].push_back(computeTraceTime);
+        timesPointPairs[groupIndex].push_back(getPairsTime);
+
+        if (al.GetLengthOnB() >= b.GetData().length() - 20)
+            break;
+//            if (readCounter % 100 == 0)
+//                cout << readCounter << endl;
+    }
 }
