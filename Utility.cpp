@@ -90,22 +90,36 @@ double Utility::VerbalResult(const string& name) {
     return result;
 }
 
-void Utility::VisualizeSeeds(const vector<Match>& seeds, const Sequence &genome, const Sequence &read, int width, int height, const string& filename, int thickness) {
-    cv::Mat img(height, width, CV_8UC3);
-    int genomeLength = genome.GetData().length();
-    int readLength = read.GetData().length();
-    img = cv::Scalar(255, 255, 255);
-    for (const Match &m : seeds) {
-        cv::Point p((int)(((double)m.genomePos / genomeLength) * width), (int)(((double)m.readPos / readLength) * height));
-        cv::circle(img, p, thickness, cv::Scalar(0, 0, 0), -1);
-    }
+bool Utility::AreConnectable(const Alignment& left, const Alignment& right) {
+    pair<int, int> start1, end1, start2, end2;
+    start1 = left.GetStartPos();
+    end1 = left.GetEndPos();
+    start2 = right.GetStartPos();
+    end2 = right.GetEndPos();
     
-    if (filename == "") {
-        cv::imshow("Seeds", img);
-        cv::waitKey(0);
-    } else {
-        cv::imwrite(filename, img);
+    if (abs(Diagonal(end1) - Diagonal(start2)) < 300 && AntiDiagonal(start1) < AntiDiagonal(start2) &&
+        AntiDiagonal(end1) < AntiDiagonal(end2) && AntiDiagonal(end1) - AntiDiagonal(start2) < 500) {
+        return true;
     }
+    return false;
+}
+
+bool Utility::IsCoveredBy(const Alignment& covered, const Alignment& covering) {
+    pair<int, int> start1, end1, start2, end2;
+    start1 = covered.GetStartPos();
+    end1 = covered.GetEndPos();
+    start2 = covering.GetStartPos();
+    end2 = covering.GetEndPos();
+    if ((Diagonal(start1) == Diagonal(start2) || Diagonal(start1) == Diagonal(end2)) &&
+        (Diagonal(end1) == Diagonal(start2) || Diagonal(end1) == Diagonal(end2)) &&
+        AntiDiagonal(start1) >= AntiDiagonal(start2) && AntiDiagonal(end1) <= AntiDiagonal(end2)) {
+        return true;
+    }
+    return false;
+}
+
+bool Utility::IsSignificant(const Alignment& al) {
+    return al.GetLengthOnB() >= 200;
 }
 
 void AlignedPairsSet::MarkAsAligned(vector<pair<int, int> >& alignedPairsVector) {
@@ -119,8 +133,19 @@ void AlignedPairsSet::MarkAsAligned(vector<pair<int, int> >& alignedPairsVector)
     }
 }
 
+Visualization::Visualization(const string& _caption)
+: caption(_caption){
+
+}
+
+
 bool AlignedPairsSet::IsAligned(Match& seed) {
     long long numValue = (((long long)(seed.genomePos + seed.length / 2) >> 3) << 32) + ((seed.readPos + seed.length / 2) >> 3);
+    return alignedPairsSet.find(numValue) != alignedPairsSet.end();
+}
+
+bool AlignedPairsSet::IsAligned(pair<int,int> seed) {
+    long long numValue = (((long long)(seed.first) >> 3) << 32) + ((seed.second) >> 3);
     return alignedPairsSet.find(numValue) != alignedPairsSet.end();
 }
 
@@ -173,8 +198,11 @@ void Visualization::CreateVisualization(const string &filename, int thickness, i
     }
     
     cv::Mat img(outputHeight, outputWidth, CV_8UC3);
-    
     img = cv::Scalar(255, 255, 255);
+    if (caption != "") {
+        cv::putText(img, caption, cv::Point(0, 15), CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 0));
+    }
+    
     cv::Point topLeft(minGenome, minRead);
     
 #define PROJECT(point) cv::Point(((double)(point.x) - topLeft.x) / (maxGenome - minGenome) * (outputWidth), \
@@ -204,9 +232,9 @@ void Visualization::CreateVisualization(const string &filename, int thickness, i
     }
 }
 
-void Visualization::AddAlignment(Alignment &al) {
+void Visualization::AddAlignment(Alignment &al, cv::Scalar color) {
     pair<vector<cv::Point>, cv::Scalar> alv;
-    alv.second = cv::Scalar(0, 0, 255);
+    alv.second = color;
     vector<pair<int, int>> pairs;
     al.GetAlignedPairs(pairs);
     for (auto p : pairs) {

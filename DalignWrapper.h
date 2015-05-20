@@ -13,16 +13,23 @@ class Alignment {
     friend class DalignWrapper;
 public:
     Alignment();
+    Alignment(const Alignment& al);
+    Alignment& operator=(const Alignment& al);
+    virtual ~Alignment();
     int GetLengthOnA() const;
     int GetLengthOnB() const;
     pair<int, int> GetPosOnA() const;
     pair<int, int> GetPosOnB() const;
+    pair<int, int> GetStartPos() const;
+    pair<int, int> GetEndPos() const;
     bool ComputeTrace();
     bool GetAlignedPairs(vector<pair<int, int>>&pairs) const;
     bool PrintAlignment(const string& filename);
     bool GetCigarString(string &cigar) const;
+    double GetSimilarity();
 private:
     void Prepare(Sequence& _A, Sequence& _B, dalign::Work_Data* _workData, int _traceSpacing);
+    void CopyData(const Alignment &al);
     dalign::Alignment alignment;
     dalign::Path path;
     dalign::Work_Data* workData;
@@ -36,6 +43,7 @@ private:
     };
 
     Status status;
+    bool deleteTrace;
 };
 
 class DalignWrapper {

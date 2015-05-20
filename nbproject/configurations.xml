@@ -18,6 +18,7 @@
       <itemPath>SeedFinder.h</itemPath>
       <itemPath>SeedFinder_hashmap.h</itemPath>
       <itemPath>SeedFinder_hashmap_2bit.h</itemPath>
+      <itemPath>SeedFinder_hashmap_2bit_1hashmap.h</itemPath>
       <itemPath>Sequence.h</itemPath>
       <itemPath>Utility.h</itemPath>
       <itemPath>common.h</itemPath>
@@ -52,6 +53,7 @@
       <itemPath>SeedFinder.cpp</itemPath>
       <itemPath>SeedFinder_hashmap.cpp</itemPath>
       <itemPath>SeedFinder_hashmap_2bit.cpp</itemPath>
+      <itemPath>SeedFinder_hashmap_2bit_1hashmap.cpp</itemPath>
       <itemPath>Sequence.cpp</itemPath>
       <itemPath>Utility.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -77,14 +79,19 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <commandLine>-pg</commandLine>
+        </cTool>
         <ccTool>
           <standard>8</standard>
+          <commandLine>-pg</commandLine>
         </ccTool>
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}</output>
           <linkerLibItems>
             <linkerOptionItem>`pkg-config --libs opencv`</linkerOptionItem>
           </linkerLibItems>
+          <commandLine>-pg</commandLine>
         </linkerTool>
       </compileType>
       <item path="BlasrOutput.cpp" ex="false" tool="1" flavor2="0">
@@ -126,6 +133,13 @@
       <item path="SeedFinder_hashmap_2bit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SeedFinder_hashmap_2bit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit_1hashmap.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit_1hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -224,6 +238,13 @@
       <item path="SeedFinder_hashmap_2bit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SeedFinder_hashmap_2bit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit_1hashmap.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="SeedFinder_hashmap_2bit_1hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
       </item>

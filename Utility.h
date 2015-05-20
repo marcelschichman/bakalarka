@@ -34,9 +34,16 @@ private:
     static vector<chrono::time_point<chrono::system_clock>> tpts;
     
 ////////////////////////////////////////////////////////////////////////////////
-// Seed Visualization
+// Alignment connecting
 public:
-    static void VisualizeSeeds(const vector<Match> &seeds, const Sequence &genome, const Sequence &read, int width, int height, const string &filename = "", int thickness = 1);
+    static bool AreConnectable(const Alignment& left, const Alignment& right);
+    static bool IsCoveredBy(const Alignment& covered, const Alignment& covering);
+    static bool IsSignificant(const Alignment& al);
+    
+    
+////////////////////////////////////////////////////////////////////////////////
+// Other
+public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +53,7 @@ class AlignedPairsSet {
 public:
     void MarkAsAligned(vector<pair<int, int>> &alignedPairsVector);
     bool IsAligned(Match& seed);
+    bool IsAligned(pair<int, int> seed);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +61,10 @@ public:
 class Visualization {
     vector<cv::Point> seeds;
     vector<pair<vector<cv::Point>, cv::Scalar>> alignments;
-    
+    string caption;
 public:
-    void AddAlignment(Alignment &al);
+    Visualization(const string& _caption = "");
+    void AddAlignment(Alignment &al, cv::Scalar color = cv::Scalar(0, 0, 255));
     void AddSeeds(vector<Match> &seeds);
     void CreateVisualization(const string &filename = "", int thickness = 1, int outputWidth = -1, int outputHeight = -1, int genomeLength = -1, int readLength = -1);
 };

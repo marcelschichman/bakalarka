@@ -5,6 +5,7 @@
 #include "DalignWrapper.h"
 #include "SAMOutput.h"
 #include "SeedFinder_hashmap_2bit.h"
+#include "SeedFinder_hashmap_2bit_1hashmap.h"
 #include <forward_list>
 #include <set>
 #include <cstdlib>
@@ -38,7 +39,7 @@ int SEED_FINDER_TEST(int argc, char** argv) {
     backwardSeeds.clear();
     
     
-    SeedFinder_hashmap_2bit fsh2b(20);
+    SeedFinder_hashmap_2bit_1hashmap fsh2b(20);
     fsh2b.CreateIndexFromGenome(genome);
     fsh2b.GetSeedsWithRead(read, forwardSeeds, backwardSeeds);
     cout << "forward new algorithm: " << endl;

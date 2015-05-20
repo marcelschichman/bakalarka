@@ -8,15 +8,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/marcel/NetBeansProjects/stuff/time_test.cpp</file>
-            <file>file:/home/marcel/NetBeansProjects/stuff/SeedFinder.cpp</file>
-            <file>file:/home/marcel/NetBeansProjects/stuff/trace_spacing_test.cpp</file>
             <file>file:/home/marcel/NetBeansProjects/stuff/Utility.cpp</file>
             <file>file:/home/marcel/NetBeansProjects/stuff/DalignWrapper.h</file>
-            <file>file:/home/marcel/NetBeansProjects/stuff/Sequence.h</file>
             <file>file:/home/marcel/NetBeansProjects/stuff/main.cpp</file>
             <file>file:/home/marcel/NetBeansProjects/stuff/Utility.h</file>
-            <file>file:/home/marcel/NetBeansProjects/stuff/efficiency_test.cpp</file>
-            <file>file:/home/marcel/NetBeansProjects/stuff/common.h</file>
+            <file>file:/home/marcel/NetBeansProjects/stuff/DalignWrapper.cpp</file>
         </group>
     </open-files>
 </project-private>

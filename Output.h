@@ -16,8 +16,8 @@ protected:
     virtual bool PrintCustomAlignment(const Alignment &al, const Sequence &read, Direction dir) = 0;
 
     ofstream os;
+    const Sequence &genome;
 private:
     bool isInitialized;
     const string &filename;
-    const Sequence &genome;
 };

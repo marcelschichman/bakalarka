@@ -5,6 +5,7 @@
 #include "DalignWrapper.h"
 #include "SAMOutput.h"
 #include "SeedFinder_hashmap_2bit.h"
+#include "SeedFinder_hashmap_2bit_1hashmap.h"
 #include <forward_list>
 #include <set>
 #include <cstdlib>
@@ -59,7 +60,7 @@ int TIME_TEST(int argc, char** argv) {
 
     // find seeds
     Utility::StartTiming();
-    SeedFinder_hashmap_2bit sf(20);
+    SeedFinder_hashmap_2bit_1hashmap sf(20);
     sf.CreateIndexFromGenome(a);
     Utility::VerbalResult("Preparing seed finder");
         

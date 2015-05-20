@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "DalignWrapper.h"
 
 DalignWrapper::DalignWrapper()
@@ -37,8 +39,54 @@ void DalignWrapper::FreeDalignData() {
 }
 
 Alignment::Alignment()
-: status(AS_EMPTY) {
+: status(AS_EMPTY), deleteTrace(false) {
 }
+
+Alignment::Alignment(const Alignment& al) {
+    CopyData(al);
+}
+
+Alignment& Alignment::operator=(const Alignment& al) {
+    CopyData(al);
+    return *this;
+}
+
+void Alignment::CopyData(const Alignment& al) {
+    status = al.status;
+    deleteTrace = false;
+    if (al.status >= AS_PREPARED) {
+        workData = al.workData;
+        traceSpacing = al.traceSpacing;
+        alignment.path = &path;
+        alignment.aseq = al.alignment.aseq;
+        alignment.alen = al.alignment.alen;
+        alignment.bseq = al.alignment.bseq;
+        alignment.blen = al.alignment.blen;
+        alignment.flags = al.alignment.flags;
+    }
+    
+    if (al.status == AS_TRACE) {
+        path.abpos = al.path.abpos;
+        path.aepos = al.path.aepos;
+        path.bbpos = al.path.bbpos;
+        path.bepos = al.path.bepos;
+        path.diffs = al.path.diffs;
+        path.tlen = al.path.tlen;
+        
+        deleteTrace = true;
+        path.trace = new int[path.tlen];
+        memcpy(path.trace, al.path.trace, path.tlen * sizeof(int));
+    }
+}
+
+
+
+Alignment::~Alignment() {
+    if (deleteTrace) {
+        delete [] (int*)path.trace;
+    }
+}
+
 
 void Alignment::Prepare(Sequence& _A, Sequence& _B, dalign::Work_Data* _workData, int _traceSpacing) {
     status = AS_PREPARED;
@@ -193,4 +241,24 @@ pair<int, int> Alignment::GetPosOnB() const {
     }
     
     return make_pair(path.bbpos, path.bepos);
+}
+
+pair<int, int> Alignment::GetStartPos() const {
+    if (status < AS_ALIGNMENT) {
+        return make_pair(0, 0);
+    }
+    
+    return make_pair(path.abpos, path.bbpos);
+}
+
+pair<int, int> Alignment::GetEndPos() const {
+    if (status < AS_ALIGNMENT) {
+        return make_pair(0, 0);
+    }
+    
+    return make_pair(path.aepos, path.bepos);
+}
+
+double Alignment::GetSimilarity() {
+    return 0;
 }
