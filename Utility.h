@@ -68,3 +68,18 @@ public:
     void AddSeeds(vector<Match> &seeds);
     void CreateVisualization(const string &filename = "", int thickness = 1, int outputWidth = -1, int outputHeight = -1, int genomeLength = -1, int readLength = -1);
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// High Error Rate Regions
+class HighErrorRateRegions {
+    struct Region {
+        pair<int, int> pos;
+        vector<pair<int, int>> leftAlignments;
+        vector<pair<int, int>> rightAlignments;
+    };
+    vector<Region> regions;
+public:
+    void AddRegion(const Alignment &left, const Alignment &right);
+    void GetHERRegions(int numOccurences, vector<Region> &outRegions);
+    void OutputHERRegions(int numOccurences);
+};

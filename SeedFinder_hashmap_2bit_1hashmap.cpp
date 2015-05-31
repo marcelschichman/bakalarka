@@ -35,7 +35,7 @@ void SeedFinder_hashmap_2bit_1hashmap::GetSeedsWithRead(Sequence& read, vector<M
     FOR(i, (int)read.GetData().length()) {
         seed = ((seed << 2) + data[i]) & mask;
         
-        if (i >= length) {
+        if (i >= length - 1) {
             auto positions = kMerMap.find(seed);
             if (positions != kMerMap.end()) {
                 for (auto &position : positions->second) {

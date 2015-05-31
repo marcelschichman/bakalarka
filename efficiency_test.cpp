@@ -15,7 +15,7 @@ struct posInfo {
 
 int EFFICIENCY_TEST(int argc, char** argv) {
     string refFilename = "sd_0001.maf";
-    string blsFilename = "pbsim_out.txt";
+    string blsFilename = "output.txt";
     
     string dummy, name;
     map<string, posInfo> positions;
@@ -26,6 +26,7 @@ int EFFICIENCY_TEST(int argc, char** argv) {
     }
     
     ifstream is(refFilename);
+    int counter = 0;
     while (is.is_open() && !is.eof()) {
         string genomeRow, readRow;
         int startOnGenome, lengthOnGenome;
@@ -52,6 +53,10 @@ int EFFICIENCY_TEST(int argc, char** argv) {
         }
         
         positions[readName] = {startOnGenome, startOnGenome + lengthOnGenome, plusMinus == "+" ? EDIR_FORWARD : EDIR_BACKWARD, 0, genomeRow, readRow};
+        counter++;
+    }
+    for (auto x : positions) {
+        cout << x.first << endl;
     }
     
     ifstream is2(blsFilename);

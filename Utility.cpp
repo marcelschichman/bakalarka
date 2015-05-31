@@ -1,5 +1,6 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
+#include <set>
 
 #include "Utility.h"
 
@@ -247,4 +248,111 @@ void Visualization::AddSeeds(vector<Match>& seeds) {
     for (auto seed : seeds) {
         this->seeds.push_back(cv::Point(seed.genomePos, seed.readPos));
     }
+}
+
+void HighErrorRateRegions::AddRegion(const Alignment& left, const Alignment& right) {
+    if (left.GetPosOnA().second < right.GetPosOnA().first) {
+        regions.push_back(Region());
+        Region &reg = regions.back();
+        
+        reg.pos = make_pair(left.GetPosOnA().second, right.GetPosOnA().first);       
+        reg.leftAlignments.push_back(left.GetPosOnA());
+        reg.rightAlignments.push_back(right.GetPosOnA());
+    }
+}
+
+void HighErrorRateRegions::GetHERRegions(int numOccurences, vector<Region>& outRegions) {
+    bool inHERRegion = false;
+    
+    cout << "regions: " << regions.size() << endl;
+    
+    vector<tuple<int, int, int>> startsAndEnds;
+    for (int i = 0; i < (int)regions.size(); i++) {
+        startsAndEnds.push_back(make_tuple(regions[i].pos.first, i, 0));
+        startsAndEnds.push_back(make_tuple(regions[i].pos.second, i, 1));
+    }
+    sort(startsAndEnds.begin(), startsAndEnds.end());
+    
+    set<int> inRegions;
+    int maxOverlaping = 0;
+    
+    outRegions.clear();
+    
+    for (auto x : startsAndEnds) {
+        if (get<2>(x) == 0) {
+            inRegions.insert(get<1>(x));
+        } else {
+            inRegions.erase(get<1>(x));
+        }
+        
+        if (inRegions.size() >= numOccurences) {
+            if (!inHERRegion) {
+                outRegions.push_back(Region());
+                for (int y : inRegions) {
+                    outRegions.back().leftAlignments.push_back(regions[y].leftAlignments[0]);
+                    outRegions.back().rightAlignments.push_back(regions[y].rightAlignments[0]);
+                }
+            } else {
+                outRegions.back().leftAlignments.push_back(regions[get<1>(x)].leftAlignments[0]);
+                outRegions.back().rightAlignments.push_back(regions[get<1>(x)].rightAlignments[0]);
+            }
+            inHERRegion = true;
+        } else {
+            inHERRegion = false;
+        }
+        maxOverlaping = max(maxOverlaping, (int)inRegions.size());
+    }
+    cout << "inRegions.size(): " << inRegions.size() << endl;
+    cout << "max overlaping: " << maxOverlaping << endl;
+}
+
+void HighErrorRateRegions::OutputHERRegions(int numOccurences) {
+    vector<Region> outRegions;
+    int coutner = 0;
+    GetHERRegions(numOccurences, outRegions);
+    int sumInBadRegions = 0;
+    for (auto x : outRegions) {
+        int n = x.leftAlignments.size();
+        int width = 600;
+        int height = 20 * (n + 2);
+        cv::Mat img(height, width, CV_8UC3);
+        img = cv::Scalar(255, 255, 255);
+        
+        int startOnGenome = 1234567890;
+        int endOnGenome = 0;
+        for (auto y : x.leftAlignments) {
+            startOnGenome = min(startOnGenome, y.first);
+        }
+        for (auto y : x.rightAlignments) {
+            endOnGenome = max(endOnGenome, y.second);
+        }
+        int lengthOnGenome = endOnGenome - startOnGenome;
+        if (lengthOnGenome <= 0) {
+            continue;
+        }
+        
+#define PROJECT2(genomePos, row) cv::Point(((double)(genomePos) - startOnGenome) / lengthOnGenome * (width - 20) + 10, (row) * 20 + 10)
+        
+        cv::line(img, PROJECT2(startOnGenome, 0), PROJECT2(endOnGenome, 0), cv::Scalar(255, 0, 0), 2);
+        for (int i = 0; i < n; i++) {
+            cv::line(img, PROJECT2(x.leftAlignments[i].first, i + 1), PROJECT2(x.leftAlignments[i].second, i + 1), cv::Scalar(0, 0, 255), 2);
+            cv::line(img, PROJECT2(x.rightAlignments[i].first, i + 1), PROJECT2(x.rightAlignments[i].second, i + 1), cv::Scalar(0, 0, 255), 2);
+        }
+        
+        char buffer[100];
+        sprintf(buffer, "bad_regions/%06d.png", coutner++);
+        
+        // ruller
+        cv::Point rullerLeft = PROJECT2(startOnGenome, n + 1);
+        cv::Point rullerRight = PROJECT2(startOnGenome + 1000, n + 1);
+        cv::Point small(0, 5);
+        cv::line(img, rullerLeft, rullerRight, cv::Scalar(0, 0, 0));
+        cv::line(img, rullerLeft - small, rullerLeft + small, cv::Scalar(0, 0, 0));
+        cv::line(img, rullerRight - small, rullerRight + small, cv::Scalar(0, 0, 0));
+        cv::putText(img, "1000", rullerLeft - cv::Point(0, 2), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 0, 0));
+        
+        cv::imwrite(buffer, img);
+        sumInBadRegions += n;
+    }
+    cout << "sum in bad regions: " << sumInBadRegions << endl;
 }

@@ -47,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SeedFinder_hashmap_2bit.o \
 	${OBJECTDIR}/SeedFinder_hashmap_2bit_1hashmap.o \
 	${OBJECTDIR}/SeedFinder_test.o \
+	${OBJECTDIR}/SeedFinder_test2.o \
 	${OBJECTDIR}/Sequence.o \
 	${OBJECTDIR}/Utility.o \
 	${OBJECTDIR}/efficiency_test.o \
@@ -141,6 +142,11 @@ ${OBJECTDIR}/SeedFinder_test.o: SeedFinder_test.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_test.o SeedFinder_test.cpp
+
+${OBJECTDIR}/SeedFinder_test2.o: SeedFinder_test2.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags opencv` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeedFinder_test2.o SeedFinder_test2.cpp
 
 ${OBJECTDIR}/Sequence.o: Sequence.cpp 
 	${MKDIR} -p ${OBJECTDIR}

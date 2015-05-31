@@ -42,6 +42,7 @@
       </logicalFolder>
       <logicalFolder name="f2" displayName="tests" projectFiles="true">
         <itemPath>SeedFinder_test.cpp</itemPath>
+        <itemPath>SeedFinder_test2.cpp</itemPath>
         <itemPath>efficiency_test.cpp</itemPath>
         <itemPath>newmain.cpp</itemPath>
         <itemPath>read_selector.cpp</itemPath>
@@ -142,6 +143,8 @@
       <item path="SeedFinder_hashmap_2bit_1hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SeedFinder_test2.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -247,6 +250,8 @@
       <item path="SeedFinder_hashmap_2bit_1hashmap.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SeedFinder_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SeedFinder_test2.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
