@@ -102,18 +102,18 @@ int ExpandSeeds(Sequence &genome, Sequence &read, vector<Match> &matches, vector
         op->AddAlignment(al, read, dir);
     }
     
-    if (longestAlignment < read.GetData().length() * 0.8) {
-        for (auto it = alList.begin(); it != alList.end(); ++it) {
-            for (auto it2 = alList.begin(); it2 != alList.end(); ++it2) {
-                if (it == it2) continue;
-                if (Utility::AreConnectable(*it, *it2)) {
-                    herRegions.AddRegion(*it, *it2);
-                    numConnectable++;
-                    break;
-                }
-            }
-        }
-    }
+//    if (longestAlignment < read.GetData().length() * 0.8) {
+//        for (auto it = alList.begin(); it != alList.end(); ++it) {
+//            for (auto it2 = alList.begin(); it2 != alList.end(); ++it2) {
+//                if (it == it2) continue;
+//                if (Utility::AreConnectable(*it, *it2)) {
+//                    herRegions.AddRegion(*it, *it2);
+//                    numConnectable++;
+//                    break;
+//                }
+//            }
+//        }
+//    }
     
     return longestAlignment;
 }
@@ -161,23 +161,20 @@ int THE_APP(int argc, char** argv) {
 
         int longestBackward = ExpandSeeds(reverseGenome, read, backwardMatches, backwardAlignments, EDIR_BACKWARD);
         
-        Visualization vis1;
-        for (auto a : forwardAlignments) {
-            vis1.AddAlignment(a);
-        }
-        vis1.AddSeeds(forwardMatches);
-        vis1.CreateVisualization(GetFilename(), 2, 1500, 500, genome.GetData().length(), read.GetData().length());
-        
-        Visualization vis2;
-        for (auto a : backwardAlignments) {
-            vis2.AddAlignment(a);
-        }
-        vis2.AddSeeds(backwardMatches);
-        vis2.CreateVisualization(GetFilename(), 2, 1500, 500, genome.GetData().length(), read.GetData().length());
+//        Visualization vis1;
+//        for (auto a : forwardAlignments) {
+//            vis1.AddAlignment(a);
+//        }
+//        vis1.AddSeeds(forwardMatches);
+//        vis1.CreateVisualization(GetFilename(), 2, 1500, 500, genome.GetData().length(), read.GetData().length());
+//        
+//        Visualization vis2;
+//        for (auto a : backwardAlignments) {
+//            vis2.AddAlignment(a);
+//        }
+//        vis2.AddSeeds(backwardMatches);
+//        vis2.CreateVisualization(GetFilename(), 2, 1500, 500, genome.GetData().length(), read.GetData().length());
     }
-    cout << "num connectable: " << numConnectable << endl;
-    cout << "num connectable before: " << numConnectableBefore << endl;
-    herRegions.OutputHERRegions(3);
     delete op;
 }
 
